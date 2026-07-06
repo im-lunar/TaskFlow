@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
-import { signupService } from "./auth.service.js";
+import { getCurrentUserService, loginService, signupService } from "./auth.service.js";
 
-export const signupController= async (
+export const signupController = async (
     req: Request, 
     res: Response
 ) => {
@@ -14,3 +14,23 @@ export const signupController= async (
         user
     });
 };
+
+export const loginController = async(req: Request, res: Response) => {
+    const { email, password } = req.body;
+
+    const response = await loginService(email, password);
+
+    res.status(200).json({
+        message: "Login successful",
+        ...response
+    });
+}
+
+export const getCurrentUserController = async(req:Request, res:Response) => {
+    const user = await getCurrentUserService(req.user.userId);
+
+    res.status(200).json({
+        success: true,
+        user
+    });
+}
