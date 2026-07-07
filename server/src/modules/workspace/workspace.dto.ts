@@ -1,0 +1,15 @@
+import type { WorkspaceRole } from "../../../generated/prisma/enums.js"
+
+export interface CreateWorkspaceResponseDto {
+    id: string,
+    name: string,
+    description: string | null,
+    ownerId: string
+}
+
+export interface WorkspaceListItemDto {
+    id: string,
+    name: string,
+    description: string | null,
+    role: WorkspaceRole
+}
