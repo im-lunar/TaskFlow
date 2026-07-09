@@ -13,3 +13,14 @@ export interface WorkspaceListItemDto {
     description: string | null,
     role: WorkspaceRole
 }
+
+export interface InviteMemberRequestDto {
+    email: string
+}
+
+export interface InviteMemberResponseDto {
+    id: string,
+    name: string,
+    email: string,
+    role: WorkspaceRole
+}
