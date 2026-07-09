@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { createWorkspaceService, getWorkspacesService } from "./workspace.service.js";
+import { createWorkspaceService, getWorkspaceByIdService, getWorkspacesService } from "./workspace.service.js";
 
 export const createWorkspaceController = async (req: Request, res: Response) => {
     const { name, description } = req.body;
@@ -20,5 +20,16 @@ export const getWorkspacesController = async (req:Request, res:Response) => {
 
     res.json({
         workspaces
+    });
+}
+
+export const getWorkspaceByIdController = async (req: Request, res: Response) => {
+    const workspaceId = req.params.workspaceId as string;
+    const { userId } = req.user;
+    
+    const workspace = await getWorkspaceByIdService(userId, workspaceId);
+
+    res.status(200).json({
+        workspace
     });
 }
