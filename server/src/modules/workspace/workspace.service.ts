@@ -185,3 +185,54 @@ export const inviteMemberService = async (email: string, workspaceId: string, ow
         role: newMember.role
     }
 }
+
+export const removeMemberService = async (memberId: string, workspaceId: string, currentUserId: string) => {
+    // verify the current user belongs to workspace
+    const currentUserMembership = await prisma.workspaceMember.findUnique({
+        where: {
+            workspaceId_userId: {
+                workspaceId,
+                userId: currentUserId
+            }
+        }
+    });
+
+    if (!currentUserMembership) {
+        throw new AppError("Workspace not found", 404)
+    }
+
+    // verify if the currentUser is the owner
+    if (currentUserMembership.role !== WorkspaceRole.OWNER) {
+        throw new AppError("Only workspace owner can remove members", 403);
+    }
+
+    // prevent owner from removing themselves
+    if (memberId === currentUserId) {
+        throw new AppError("Workspace owner cannot remove themselves", 400);
+    }
+
+    // check if the user that has to be removed is the member of workspace
+    const targetedMember = await prisma.workspaceMember.findUnique({
+        where: {
+            workspaceId_userId: {
+                workspaceId,
+                userId: memberId
+            }
+        }
+    });
+
+    if (!targetedMember) {
+        throw new AppError("Member not found", 404);
+    }
+
+    // remove member
+    await prisma.workspaceMember.delete({
+        where: {
+            workspaceId_userId: {
+                workspaceId,
+                userId: memberId
+            }
+        }
+    });
+    
+}

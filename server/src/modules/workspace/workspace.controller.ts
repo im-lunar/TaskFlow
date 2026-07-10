@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { createWorkspaceService, getWorkspaceByIdService, getWorkspacesService, inviteMemberService } from "./workspace.service.js";
+import { createWorkspaceService, getWorkspaceByIdService, getWorkspacesService, inviteMemberService, removeMemberService } from "./workspace.service.js";
 
 export const createWorkspaceController = async (req: Request, res: Response) => {
     const { name, description } = req.body;
@@ -44,5 +44,17 @@ export const inviteMemberController = async (req: Request, res: Response) => {
     res.status(201).json({
         message: "Member invited successfully",
         member
+    });
+}
+
+export const removeMemberController = async (req: Request, res: Response) => {
+    const workspaceId = req.params.workspaceId as string;
+    const memberId = req.params.memberId as string;
+    const { userId } = req.user;
+
+    await removeMemberService(memberId, workspaceId, userId);
+
+    res.status(200).json({
+        message: "Member removed successfully"
     });
 }
