@@ -56,3 +56,8 @@ export type Workspace = Prisma.WorkspaceModel
  * 
  */
 export type WorkspaceMember = Prisma.WorkspaceMemberModel
+/**
+ * Model Task
+ * 
+ */
+export type Task = Prisma.TaskModel
