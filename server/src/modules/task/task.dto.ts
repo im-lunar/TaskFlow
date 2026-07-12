@@ -19,12 +19,10 @@ export interface CreateTaskResponseDto {
     creator: {
         id: string;
         name: string;
-        email: string;
     };
     assignee: {
         id: string;
         name: string;
-        email: string;
     } | null;
 }
 
@@ -44,4 +42,23 @@ export interface TaskListItemDto {
         id: string,
         name: string
     } | null;
+}
+
+export interface TaskDetailsDto {
+    id: string,
+    title: string,
+    description: string | null,
+    status: TaskStatus,
+    priority: TaskPriority,
+    dueDate: Date | null,
+    workspaceId: string,
+
+    creator: {
+        id: string,
+        name: string
+    },
+    assignee: {
+        id: string,
+        name: string
+    } | null
 }

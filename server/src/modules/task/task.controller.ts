@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { createTaskService, getTasksService } from "./task.service.js";
+import { createTaskService, getTaskByIdService, getTasksService } from "./task.service.js";
 import type { CreateTaskRequestDto } from "./task.dto.js";
 
 export const createTaskController = async (req: Request, res: Response) => {
@@ -22,5 +22,16 @@ export const  getTasksController = async (req: Request, res: Response) => {
 
     res.json({
         tasks
+    });
+}
+
+export const getTaskByIdController = async (req: Request, res: Response) => {
+    const taskId = req.params.taskId as string;
+    const { userId } = req.user;
+
+    const task = await getTaskByIdService(taskId, userId);
+
+    res.status(200).json({
+        task
     });
 }

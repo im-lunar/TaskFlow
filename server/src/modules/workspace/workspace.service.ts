@@ -82,8 +82,7 @@ export const getWorkspaceByIdService = async (userId: string, workspaceId: strin
                     user: {
                         select: {
                             id: true,
-                            name: true,
-                            email: true
+                            name: true
                         }
                     }
                 }
@@ -101,9 +100,8 @@ export const getWorkspaceByIdService = async (userId: string, workspaceId: strin
         description: workspace.description,
         role: membership.role,
         members : workspace.members.map((member) => ({
-            id: member.userId,
+            id: member.user.id,
             name: member.user.name,
-            email: member.user.email,
             role: member.role
         }))
     }

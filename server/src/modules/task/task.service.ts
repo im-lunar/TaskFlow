@@ -1,7 +1,6 @@
-import { title } from "node:process";
 import { prisma } from "../../prisma.js";
 import { AppError } from "../../utils/AppError.js";
-import type { CreateTaskRequestDto, CreateTaskResponseDto, TaskListItemDto } from "./task.dto.js";
+import type { CreateTaskRequestDto, CreateTaskResponseDto, TaskDetailsDto, TaskListItemDto } from "./task.dto.js";
 
 export const createTaskService = async (
     workspaceId:string,
@@ -63,15 +62,13 @@ export const createTaskService = async (
             assignee: {
                 select: {
                     id: true,
-                    name: true,
-                    email: true
+                    name: true
                 }
             },
             creator: {
                 select: {
                     id: true,
-                    name: true,
-                    email: true
+                    name: true
                 }
             }
         }
@@ -148,4 +145,68 @@ export const getTasksService = async (workspaceId: string, userId: string): Prom
             }
             : null
     }));
+}
+
+export const getTaskByIdService = async (taskId: string, userId: string) => {
+    const task = await prisma.task.findUnique({
+        where: {
+            id: taskId
+        },
+        include: {
+            creator: {
+                select: {
+                    id: true,
+                    name: true
+                }
+            },
+            assignee: {
+                select: {
+                    id: true,
+                    name: true
+                }
+            }
+        }
+    });
+
+    if (!task) {
+        throw new AppError("Task not found", 404);
+    }
+
+    const membership = await prisma.workspaceMember.findUnique({
+        where: {
+            workspaceId_userId:{
+                workspaceId: task.workspaceId,
+                userId
+            }
+            }
+    });
+
+    if (!membership) {
+        throw new AppError("Task not found", 404);
+    }
+
+    const response: TaskDetailsDto = {
+        id: task.id,
+        title: task.title,
+        description: task.description,
+        status: task.status,
+        priority: task.priority,
+        dueDate: task.dueDate,
+        workspaceId: task.workspaceId,
+
+        creator: {
+            id: task.creator.id,
+            name: task.creator.name
+        },
+
+        assignee: task.assignee
+            ? {
+                  id: task.assignee.id,
+                  name: task.assignee.name
+              }
+            : null
+    }
+
+    return response;
+
 }
