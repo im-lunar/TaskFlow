@@ -27,3 +27,21 @@ export interface CreateTaskResponseDto {
         email: string;
     } | null;
 }
+
+export interface TaskListItemDto {
+    id: string,
+    title: string,
+    description: string | null,
+    status: TaskStatus,
+    priority: TaskPriority,
+    dueDate: Date | null,
+
+    creator: {
+        id: string,
+        name: string
+    },
+    assignee: {
+        id: string,
+        name: string
+    } | null;
+}

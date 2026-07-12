@@ -1,6 +1,7 @@
+import { title } from "node:process";
 import { prisma } from "../../prisma.js";
 import { AppError } from "../../utils/AppError.js";
-import type { CreateTaskRequestDto, CreateTaskResponseDto } from "./task.dto.js";
+import type { CreateTaskRequestDto, CreateTaskResponseDto, TaskListItemDto } from "./task.dto.js";
 
 export const createTaskService = async (
     workspaceId:string,
@@ -89,4 +90,62 @@ export const createTaskService = async (
     }
 
     return response;
+}
+
+export const getTasksService = async (workspaceId: string, userId: string): Promise<TaskListItemDto[]> => {
+    const membership = await prisma.workspaceMember.findUnique({
+        where: {
+            workspaceId_userId: {
+                workspaceId,
+                userId
+            }
+        }
+    });
+
+    if (!membership) {
+        throw new AppError("Workspace not found", 404)
+    }
+
+    const tasks = await prisma.task.findMany({
+        where: {
+            workspaceId
+        },
+        include: {
+            creator: {
+                select: {
+                    id: true,
+                    name: true
+                }
+            },
+            assignee: {
+                select: {
+                    id: true,
+                    name: true
+                }
+            }
+        },
+        orderBy: {
+            createdAt: "desc"
+        }
+    });
+
+    return tasks.map((task) => ({
+        id: task.id,
+        title: task.title,
+        description: task.description,
+        status: task.status,
+        priority: task.priority,
+        dueDate: task.dueDate,
+
+        creator: {
+            id: task.creator.id,
+            name: task.creator.name
+        },
+        assignee: task.assignee
+            ? {
+                id: task.assignee.id,
+                name: task.assignee.name
+            }
+            : null
+    }));
 }
