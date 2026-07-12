@@ -62,3 +62,11 @@ export interface TaskDetailsDto {
         name: string
     } | null
 }
+
+export interface UpdateTaskRequestDto {
+    title?: string,
+    description?: string,
+    priority?: TaskPriority,
+    dueDate?: Date,
+    assigneeId?: string | null 
+}

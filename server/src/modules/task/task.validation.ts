@@ -6,5 +6,15 @@ export const taskSchema = z.object({
     description: z.string().trim().max(500, "Description cannot exceed 500 characters").optional(),
     priority: z.enum(TaskPriority).optional(),
     dueDate: z.coerce.date().optional(),
-    assigneeId: z.uuid().optional()
-});
+    assigneeId: z.uuid().nullable().optional()
+}).refine(
+    (data) =>
+        data.title !== undefined ||
+        data.description !== undefined ||
+        data.priority !== undefined ||
+        data.dueDate !== undefined ||
+        data.assigneeId !== undefined,
+    {
+        message: "At least one field must be provided for update"
+    }
+);
