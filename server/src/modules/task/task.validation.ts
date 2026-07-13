@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { TaskPriority } from "../../../generated/prisma/enums.js";
+import { TaskPriority, TaskStatus } from "../../../generated/prisma/enums.js";
 
 export const taskSchema = z.object({
     title: z.string().trim().min(3, "Task title must be at least 3 characters").max(100, "Task title cannot exceed 100 characters"),
@@ -18,3 +18,7 @@ export const taskSchema = z.object({
         message: "At least one field must be provided for update"
     }
 );
+
+export const UpdateTaskStatusSchema = z.object({
+    status: z.enum(TaskStatus)
+});

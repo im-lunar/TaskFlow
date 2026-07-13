@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
-import { createTaskService, getTaskByIdService, getTasksService, updateTaskService } from "./task.service.js";
-import type { CreateTaskRequestDto, UpdateTaskRequestDto } from "./task.dto.js";
+import { createTaskService, deleteTaskService, getTaskByIdService, getTasksService, updateTaskService, updateTaskStatusService } from "./task.service.js";
+import type { CreateTaskRequestDto, UpdateTaskRequestDto, UpdateTaskStatusRequestDto } from "./task.dto.js";
 
 export const createTaskController = async (req: Request, res: Response) => {
     const workspaceId = req.params.workspaceId as string;
@@ -46,4 +46,26 @@ export const updateTaskController = async (req: Request, res: Response) => {
         message: "Task details updated successfully",
         task
     })
+}
+
+export const updateTaskStatusController = async (req: Request, res: Response) => {
+    const taskId = req.params.taskId as string;
+    const { userId } = req.user;
+    const { status } = req.body as UpdateTaskStatusRequestDto;
+
+    const task = await updateTaskStatusService(taskId, userId, status);
+
+    res.status(200).json({
+        message: "Task Status updated successfully",
+        task
+    });
+}
+
+export const deleteTaskController = async (req: Request, res: Response) => {
+    const taskId = req.params.taskId as string;
+    const { userId } = req.user;
+
+    await deleteTaskService(taskId, userId);
+
+    res.sendStatus(204);
 }

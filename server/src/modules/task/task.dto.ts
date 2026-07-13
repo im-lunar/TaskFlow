@@ -70,3 +70,7 @@ export interface UpdateTaskRequestDto {
     dueDate?: Date,
     assigneeId?: string | null 
 }
+
+export interface UpdateTaskStatusRequestDto {
+    status: TaskStatus
+}

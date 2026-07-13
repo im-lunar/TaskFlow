@@ -1,4 +1,4 @@
-import { WorkspaceRole } from "../../../generated/prisma/enums.js";
+import { TaskStatus, WorkspaceRole } from "../../../generated/prisma/enums.js";
 import { prisma } from "../../prisma.js";
 import { AppError } from "../../utils/AppError.js";
 import type { CreateTaskRequestDto, CreateTaskResponseDto, TaskDetailsDto, TaskListItemDto, UpdateTaskRequestDto } from "./task.dto.js";
@@ -327,4 +327,112 @@ export const updateTaskService = async (taskId: string, userId: string, data: Up
     }
 
     return response;
+}
+
+export const updateTaskStatusService = async (taskId: string, userId: string, status: TaskStatus) => {
+    const task = await prisma.task.findUnique({
+        where: {
+            id: taskId
+        }
+    });
+
+    if (!task) {
+        throw new AppError("Task not found", 404);
+    }
+
+    const membership = await prisma.workspaceMember.findUnique({
+        where: {
+            workspaceId_userId: {
+                workspaceId: task.workspaceId,
+                userId
+            }
+        }
+    });
+
+    if (!membership) {
+        throw new AppError("Task not found", 404);
+    }
+
+    if (membership.role !== WorkspaceRole.OWNER && task.creatorId !== userId) {
+        throw new AppError("You are not authorized to change the status", 403);
+    }
+
+    const updatedTask = await prisma.task.update({
+        where: {
+            id: taskId
+        },
+        data: {
+            status
+        },
+        include: {
+            creator: {
+                select: {
+                    id: true,
+                    name: true
+                }
+            },
+            assignee: {
+                select: {
+                    id: true,
+                    name: true
+                }
+            }
+        }
+    });
+
+    const response: TaskDetailsDto = {
+        id: updatedTask.id,
+        title: updatedTask.title,
+        description: updatedTask.description,
+        status: updatedTask.status,
+        priority: updatedTask.priority,
+        dueDate: updatedTask.dueDate,
+        workspaceId: updatedTask.workspaceId,
+        creator: {
+            id: updatedTask.creator.id,
+            name: updatedTask.creator.name
+        },
+        assignee: updatedTask.assignee
+            ? {
+                id: updatedTask.assignee.id,
+                name: updatedTask.assignee.name
+            } : null
+    }
+
+    return response;
+}
+
+export const deleteTaskService = async (taskId: string, userId: string): Promise<void> => {
+    const task = await prisma.task.findUnique({
+        where: {
+            id: taskId
+        }
+    });
+
+    if (!task) {
+        throw new AppError("Task not found", 404);
+    }
+
+    const membership = await prisma.workspaceMember.findUnique({
+        where: {
+            workspaceId_userId: {
+                workspaceId: task.workspaceId,
+                userId
+            }
+        }
+    });
+
+    if (!membership) {
+        throw new AppError("Task not found", 404);
+    }
+
+    if (membership.role !== WorkspaceRole.OWNER && task.creatorId !== userId) {
+        throw new AppError("You are not authorized to delete this task", 403);
+    }
+
+    await prisma.task.delete({
+        where: {
+            id: taskId
+        }
+    });
 }
