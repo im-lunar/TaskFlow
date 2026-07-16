@@ -4,8 +4,10 @@ import { errorHandler } from "./middlewares/error.middleware.js";
 import workspaceRoutes from "./modules/workspace/workspace.routes.js"
 import taskCollectionRoutes from "./modules/task/task.collection.routes.js"
 import taskRoutes from "./modules/task/task.routes.js"
+import cors from "cors"
 
 const app = express();
+app.use(cors());
 
 app.use(express.json());
 app.use("/api/v1/auth", authRoutes);
