@@ -17,6 +17,6 @@ export const signup = async (data: SignupData) => {
 }
 
 export const signin = async (data: SigninData) => {
-    const response = await api.post("/auth/signin", data);
+    const response = await api.post("/auth/login", data);
     return response.data;
 };
