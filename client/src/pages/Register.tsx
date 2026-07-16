@@ -5,6 +5,7 @@ import Button from "../components/common/Button";
 import Input from "../components/common/Input";
 
 import { signup } from "../services/auth.services";
+import axios from "axios";
 
 function Register() {
     const navigate = useNavigate();
@@ -13,10 +14,16 @@ function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+
     const handleSubmit = async (
         e: React.SubmitEvent<HTMLFormElement>
     ) => {
         e.preventDefault();
+
+        setLoading(true);
+        setError("");
 
         try {
             await signup({
@@ -27,7 +34,13 @@ function Register() {
 
             navigate("/login");
         } catch (error) {
-            console.error(error);
+            if (axios.isAxiosError(error)) {
+                setError(error.response?.data?.message || "Something went wrong. Please try again");
+            } else {
+                setError("Something went wrong. Please try again.");
+            }
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -131,8 +144,17 @@ function Register() {
                             }
                         />
 
-                        <Button type="submit">
-                            Create Account
+                        {error && (
+                            <p className="text-sm text-red-600">
+                                {error}
+                            </p>
+                        )}
+
+                        <Button 
+                            type="submit"
+                            disabled={loading}
+                        >
+                            {loading? "Creating Account...":"Create Account"}
                         </Button>
 
                     </form>
