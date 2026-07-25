@@ -49,7 +49,7 @@ function Register() {
 
             {/* LEFT SECTION */}
 
-            <div className="hidden lg:flex flex-col justify-center bg-linear-to-br from-indigo-700 to-indigo-500 text-white px-20">
+            <div className="hidden lg:flex flex-col justify-center bg-linear-to-br from-[#312e81] via-[#4338ca] to-[#6366f1] text-white px-20">
 
                 <h1 className="text-6xl font-bold">
                     TaskFlow

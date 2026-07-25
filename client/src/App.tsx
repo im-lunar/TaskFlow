@@ -5,6 +5,7 @@ import Workspace from "./pages/Workspace";
 import NotFound from "./pages/NotFound";
 import DashboardLayout from "./layouts/DashboardLayout";
 import Dashboard from "./pages/Dashboard";
+import ProtectedRoute from "./routes/ProtectedRoute";
 
 function App() {
   return (
@@ -16,11 +17,19 @@ function App() {
 
       <Route path="/signup" element={<Register />} />
 
-      <Route path="/dashboard" element={<DashboardLayout />} >
+      <Route path="/dashboard" element={
+      <ProtectedRoute>
+        <DashboardLayout />
+      </ProtectedRoute>
+      } >
         <Route index element={<Dashboard />} />
       </Route>
 
-      <Route path="/workspaces/:workspaceId" element={<Workspace />} />
+      <Route path="/workspaces/:workspaceId" element={
+        <ProtectedRoute>
+          <Workspace />
+        </ProtectedRoute>
+      } />
 
       <Route path="*" element={<NotFound />} />
     </Routes>

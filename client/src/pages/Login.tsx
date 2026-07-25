@@ -7,6 +7,8 @@ import Input from "../components/common/Input";
 import { signin } from "../services/auth.services";
 import axios from "axios";
 
+import authBackground from "../assets/ChatGPT Image Jul 17, 2026, 10_15_46 PM.png"
+
 function Login() {
     const navigate = useNavigate();
 
@@ -25,10 +27,12 @@ function Login() {
         setError("");
 
         try {
-            await signin({
+            const response = await signin({
                 email,
                 password,
             });
+
+            localStorage.setItem("taskflow_token", response.token);
 
             navigate("/dashboard");
         } catch (error) {
@@ -47,13 +51,22 @@ function Login() {
 
             {/* LEFT SECTION */}
 
-            <div className="hidden lg:flex flex-col justify-center bg-linear-to-br from-indigo-700 to-indigo-500 text-white px-20">
+            <div className="hidden lg:flex flex-col justify-center text-white px-20 bg-cover bg-center relative"
+                style={{
+                    backgroundImage: `url(${authBackground})`
+                }}
+            >
+                <div className="absolute inset-0 bg-indigo/35">
+                </div>
 
-                <h1 className="text-6xl font-bold">
+                <div className="relative z-10">
+
+                <div className="relative z-10 max-w-xl rounded-3xl bg-white/10 backdrop-blur-md p-10 border border-white/20">
+                    <h1 className="text-4xl font-bold text-indigo-500">
                     TaskFlow
-                </h1>
+                    </h1>
 
-                <p className="mt-8 text-xl leading-relaxed text-indigo-100 max-w-md">
+                <p className="mt-8 text-xl leading-relaxed text-black max-w-md">
                     Organize projects, manage tasks, and collaborate
                     effortlessly with your team—all in one place.
                 </p>
@@ -61,38 +74,44 @@ function Login() {
                 <div className="mt-16 space-y-6">
 
                     <div className="flex items-center gap-4">
-                        <div className="h-10 w-10 rounded-full bg-white/20 flex items-center justify-center">
+                        <div className="h-10 w-10 rounded-full bg-black/20 flex items-center justify-center">
                             ✓
                         </div>
 
-                        <span className="text-lg">
+                        <span className="text-lg text-black">
                             Create unlimited workspaces
                         </span>
                     </div>
 
                     <div className="flex items-center gap-4">
-                        <div className="h-10 w-10 rounded-full bg-white/20 flex items-center justify-center">
+                        <div className="h-10 w-10 rounded-full bg-black/20 flex items-center justify-center">
                             ✓
                         </div>
 
-                        <span className="text-lg">
+                        <span className="text-lg text-black">
                             Organize tasks with Kanban boards
                         </span>
                     </div>
 
                     <div className="flex items-center gap-4">
-                        <div className="h-10 w-10 rounded-full bg-white/20 flex items-center justify-center">
+                        <div className="h-10 w-10 rounded-full bg-black/20 flex items-center justify-center">
                             ✓
                         </div>
 
-                        <span className="text-lg">
+                        <span className="text-lg text-black">
                             Collaborate with your team
                         </span>
                     </div>
+                
+
+                </div>
+
+                
 
                 </div>
 
             </div>
+        </div>
 
             {/* RIGHT SECTION */}
 
