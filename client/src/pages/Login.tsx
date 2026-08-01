@@ -9,6 +9,8 @@ import axios from "axios";
 
 import authBackground from "../assets/ChatGPT Image Jul 17, 2026, 10_15_46 PM.png"
 
+import { useAuth } from "../hooks/useAuth";
+
 function Login() {
     const navigate = useNavigate();
 
@@ -17,6 +19,8 @@ function Login() {
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+
+    const { login } = useAuth();
 
     const handleSubmit = async (
         e: React.SubmitEvent<HTMLFormElement>
@@ -32,7 +36,7 @@ function Login() {
                 password,
             });
 
-            localStorage.setItem("taskflow_token", response.token);
+            await login(response.token);
 
             navigate("/dashboard");
         } catch (error) {
