@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Workspace from "./pages/Workspace";
@@ -11,28 +11,47 @@ function App() {
   return (
     <Routes>
 
-      <Route path="/"  />
+            {/* Redirect root */}
+            <Route
+                path="/"
+                element={<Navigate to="/dashboard" replace />}
+            />
 
-      <Route path="/login" element={<Login />} />
+            {/* Public Routes */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Register />} />
 
-      <Route path="/signup" element={<Register />} />
+            {/* Protected Routes */}
+            <Route
+                element={
+                    <ProtectedRoute>
+                        <DashboardLayout />
+                    </ProtectedRoute>
+                }
+            >
+                <Route
+                    path="/dashboard"
+                    element={<Dashboard />}
+                />
 
-      <Route path="/dashboard" element={
-      <ProtectedRoute>
-        <DashboardLayout />
-      </ProtectedRoute>
-      } >
-        <Route index element={<Dashboard />} />
-      </Route>
+                <Route
+                    path="/workspaces"
+                    element={<Workspace />}
+                />
 
-      <Route path="/workspaces/:workspaceId" element={
-        <ProtectedRoute>
-          <Workspace />
-        </ProtectedRoute>
-      } />
+                <Route
+                    path="/workspaces/:workspaceId"
+                    element={<Workspace />}
+                />
+            </Route>
 
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+            {/* 404 */}
+            <Route
+                path="*"
+                element={<NotFound />}
+            />
+
+        </Routes>
   );
 }
 

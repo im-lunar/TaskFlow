@@ -1,5 +1,6 @@
 import { useAuth } from "../../hooks/useAuth";
 
+
 function TopNavbar() {
     
     const { user, loading } = useAuth();
@@ -18,16 +19,8 @@ function TopNavbar() {
     }
 
     return (
-        <header className="flex items-center justify-between py-4 px-6 border-b bg-white">
-            <div>
-                <h1 className="text-xl font-bold text-gray-900">
-                    Dashboard
-                </h1>
-                <p className="text-sm text-gray-500">
-                    Welcome back, {user?.name}
-                </p>
-            </div>
-
+        <header className="flex items-center justify-end py-4 px-6 border-b bg-white">
+            
             <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-600 text-lg font-semibold text-white">
                     {user?.name?.charAt(0).toUpperCase()}
