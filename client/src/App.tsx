@@ -6,6 +6,7 @@ import NotFound from "./pages/NotFound";
 import DashboardLayout from "./layouts/DashboardLayout";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import WorkspaceDetails from "./pages/WorkspaceDetails";
 
 function App() {
   return (
@@ -41,7 +42,7 @@ function App() {
 
                 <Route
                     path="/workspaces/:workspaceId"
-                    element={<Workspace />}
+                    element={<WorkspaceDetails />}
                 />
             </Route>
 

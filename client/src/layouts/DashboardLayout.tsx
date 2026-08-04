@@ -7,12 +7,12 @@ function DashboardLayout() {
     const [user, setUser] = useState();
 
     return (
-    <div className="flex min-h-screen">
+    <div className="flex h-screen overflow-hidden">
         <Sidebar />
-        <main className="flex-1 flex flex-col">
+        <main className="flex flex-1 flex-col">
             <TopNavbar />
 
-            <div className="flex-1 bg-gray-50 p-6">
+            <div className="flex-1 overflow-y-auto bg-gray-50 p-6">
                 <Outlet />
             </div>
         </main>
