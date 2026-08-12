@@ -5,12 +5,14 @@ type TaskBoardProps = {
     tasks: Task[];
     loading: boolean;
     error: string;
+    onTaskClick: (task: Task) => void;
 };
 
 function TaskBoard({
     tasks,
     loading,
     error,
+    onTaskClick
 }: TaskBoardProps) {
     if (loading) {
         return (
@@ -45,16 +47,19 @@ function TaskBoard({
             <TaskColumn
                 title="To Do"
                 tasks={taskByStatus.TODO}
+                onTaskClick={onTaskClick}
             />
 
             <TaskColumn
                 title="In Progress"
                 tasks={taskByStatus.IN_PROGRESS}
+                onTaskClick={onTaskClick}
             />
 
             <TaskColumn
                 title="Done"
                 tasks={taskByStatus.DONE}
+                onTaskClick={onTaskClick}
             />
         </div>
     );

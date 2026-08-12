@@ -8,9 +8,10 @@ import type { Task } from "../../types/task";
 
 type TaskCardProps = {
     task: Task;
+    onClick: () => void;
 };
 
-function TaskCard({ task }: TaskCardProps) {
+function TaskCard({ task, onClick }: TaskCardProps) {
 
     const priorityStyles = {
         LOW: "bg-green-100 text-green-700",
@@ -29,6 +30,7 @@ function TaskCard({ task }: TaskCardProps) {
 
     return (
         <div
+            onClick={onClick}
             className="
                 rounded-xl
                 border

@@ -4,9 +4,10 @@ import TaskCard from "./TaskCard";
 type TaskColumnProps = {
     title: string;
     tasks: Task[];
+    onTaskClick: (tk: Task) => void;
 }
 
-function TaskColumn({ title, tasks }: TaskColumnProps) {
+function TaskColumn({ title, tasks, onTaskClick }: TaskColumnProps) {
     return (
         <div className="rounded-xl border border-gray-200 bg-white p-5 min-h-125">
             <div className="mb-4 flex items-center justify-between">
@@ -27,6 +28,7 @@ function TaskColumn({ title, tasks }: TaskColumnProps) {
                         <TaskCard 
                             key={task.id}
                             task={task}
+                            onClick={() => onTaskClick(task)}
                         />
                     ))
                 )}

@@ -7,6 +7,8 @@ import TaskBoard from "../components/task/TaskBoard";
 import CreateTaskModal from "../components/task/CreateTaskModal";
 import type { Task } from "../types/task";
 import { getTasks } from "../services/task.services";
+import TaskDetailsModal from "../components/task/TaskDetailsModal";
+import EditTaskModal from "../components/task/EditTaskModal";
 
 function WorkspaceDetails() {
     const { workspaceId } = useParams<{ workspaceId: string }>();
@@ -20,6 +22,17 @@ function WorkspaceDetails() {
     const [tasks, setTasks] = useState<Task[]>([]);
     const [loadingTasks, setLoadingTasks] = useState(true);
     const [taskError, setTaskError] = useState("");
+
+    const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+
+    type TaskModal = "details" | "edit" | null;
+    const [taskModal, setTaskModal] = useState<TaskModal>(null);
+
+
+    const handleTaskClick = (task: Task) => {
+        setSelectedTask(task);
+        setTaskModal("details");
+    };
 
     const fetchWorkspace = async () => {
         if (!workspaceId) return;
@@ -86,6 +99,22 @@ function WorkspaceDetails() {
                         tasks={tasks}
                         loading={loadingTasks}
                         error={taskError}
+                        onTaskClick={handleTaskClick}
+                    />
+                    <TaskDetailsModal 
+                        task={selectedTask}
+                        isOpen={selectedTask !== null}
+                        onClose={() => setSelectedTask(null)}
+                        onEdit={() => setTaskModal("edit")}
+                        onTaskUpdated={fetchTasks}
+                        onTaskDeleted={fetchTasks}
+                     />
+                     <EditTaskModal
+                        task={selectedTask}
+                        members={workspace.members}
+                        isOpen={taskModal === "edit"}
+                        onClose={() => setTaskModal(null)}
+                        onTaskUpdated={fetchTasks}
                     />
                 </>
             )}
