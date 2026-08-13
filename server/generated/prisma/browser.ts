@@ -37,3 +37,8 @@ export type WorkspaceMember = Prisma.WorkspaceMemberModel
  * 
  */
 export type Task = Prisma.TaskModel
+/**
+ * Model WorkspaceInvitation
+ * 
+ */
+export type WorkspaceInvitation = Prisma.WorkspaceInvitationModel
