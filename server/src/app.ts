@@ -15,7 +15,7 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/workspaces", workspaceRoutes);
 app.use("/api/v1/workspaces", taskCollectionRoutes);
 app.use("/api/v1", taskRoutes);
-app.use("api/v1/invitations", invitationRouter);
+app.use("/api/v1/invitations", invitationRouter);
 app.use(errorHandler);
 
 export default app;

@@ -219,3 +219,48 @@ export const rejectWorkspaceInvitationService = async (invitationId: string, use
 
     return updateInvitation;
 }
+
+export const getMyWorkspaceInvitationsService = async (
+    userId: string
+) => {
+    const user = await prisma.user.findUnique({
+        where: {
+            id: userId
+        },
+        select: {
+            email: true
+        }
+    });
+
+    if (!user) {
+        throw new AppError("User not found", 404);
+    }
+
+    const invitations = await prisma.workspaceInvitation.findMany({
+        where: {
+            email: user.email,
+            status: "PENDING"
+        },
+        include: {
+            workspace: {
+                select: {
+                    id: true,
+                    name: true,
+                    description: true
+                }
+            },
+            invitedBy: {
+                select: {
+                    id: true,
+                    name: true,
+                    email: true
+                }
+            }
+        },
+        orderBy: {
+            createdAt: "desc"
+        }
+    });
+
+    return invitations;
+};

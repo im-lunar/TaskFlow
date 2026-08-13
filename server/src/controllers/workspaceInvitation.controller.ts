@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { acceptWorkspaceInvitationService, createWorkspaceInvitationService, rejectWorkspaceInvitationService } from "../services/workspaceInvitation.service.js";
+import { acceptWorkspaceInvitationService, createWorkspaceInvitationService, getMyWorkspaceInvitationsService, rejectWorkspaceInvitationService } from "../services/workspaceInvitation.service.js";
 
 export const createWorkspaceInvitationController = async (req: Request, res:Response) => {
     const workspaceId = req.params.workspaceId as string;
@@ -37,3 +37,17 @@ export const rejectWorkspaceInvitationController = async (req: Request, res: Res
         invitation
     });
 }
+
+export const getMyWorkspaceInvitationsController = async (
+    req: Request,
+    res: Response
+) => {
+    const { userId } = req.user;
+
+    const invitations =
+        await getMyWorkspaceInvitationsService(userId);
+
+    res.status(200).json({
+        invitations
+    });
+};
