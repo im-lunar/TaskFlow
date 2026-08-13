@@ -1,8 +1,29 @@
 # TaskFlow
 
-TaskFlow is a full-stack project management application inspired by tools like Trello. It allows users to create workspaces, collaborate with members, manage tasks, and organize work through a simple Kanban-style task board.
+TaskFlow is a full-stack project management application inspired by tools like Trello. It allows users to create workspaces, collaborate with members, manage tasks, and organize work through a Kanban-style task board.
 
-The project was built to practice and demonstrate full-stack development using TypeScript, React, Express, PostgreSQL, Prisma, and modern authentication/API patterns.
+The project was built to practice and demonstrate full-stack development using TypeScript, React, Express, PostgreSQL, Prisma, and modern authentication and API patterns.
+
+---
+
+## Screenshots
+
+### Dashboard
+
+![TaskFlow Dashboard](./screenshots/dash.png)
+
+### Workspace Page
+
+![TaskFlow Workspace](./screenshots/workspace.png)
+
+### Kanban Board
+
+![Task Details](./screenshots/kanban.png)
+
+
+### Workspace Invitations
+
+![Workspace Invitations](./screenshots/invite.png)
 
 ---
 
@@ -11,11 +32,11 @@ The project was built to practice and demonstrate full-stack development using T
 ### Authentication
 
 - User registration and login
-- Password hashing
+- Password hashing with bcrypt
 - JWT-based authentication
 - Protected API routes
 - Protected frontend routes
-- Persistent authentication using local storage
+- Persistent authentication
 
 ### Workspaces
 
@@ -25,8 +46,8 @@ The project was built to practice and demonstrate full-stack development using T
 - Workspace roles:
   - Owner
   - Member
-- Workspace membership management
-- Workspace-specific tasks
+- Workspace membership
+- Workspace-specific task management
 
 ### Workspace Invitations
 
@@ -37,7 +58,8 @@ Users can:
 - View pending invitations
 - Accept invitations
 - Reject invitations
-- Automatically become workspace members after accepting an invitation
+
+When an invitation is accepted, the user is automatically added to the workspace as a member.
 
 Invitation validation includes:
 
@@ -45,13 +67,13 @@ Invitation validation includes:
 - Duplicate membership checks
 - Duplicate pending invitation checks
 - Invitation expiration
-- Email ownership verification
+- Invitation email verification
 
 ### Task Management
 
 Tasks support:
 
-- Task title
+- Title
 - Description
 - Status
 - Priority
