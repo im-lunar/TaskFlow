@@ -5,11 +5,13 @@ import type { WorkspaceDetail } from "../../types/workspace";
 type WorkspaceHeaderProps = {
     workspace: WorkspaceDetail;
     onCreateTask: () => void;
+    onInviteMember: () => void;
 };
 
 export function WorkspaceHeader({
     workspace,
     onCreateTask,
+    onInviteMember
 }: WorkspaceHeaderProps) {
     const navigate = useNavigate();
 
@@ -57,6 +59,16 @@ export function WorkspaceHeader({
                             <span className="font-medium text-gray-700">
                                 {workspace.role}
                             </span>
+
+                            {workspace.role === "OWNER" && (
+                                <button
+                                    onClick={onInviteMember}
+                                    className="rounded-lg bg-indigo-600 px-4 py-2 my-2 text-sm font-medium text-white transition hover:bg-indigo-700"
+                                >
+                                    Invite Member
+                                </button>
+                            )}
+
                         </div>
                     </div>
 

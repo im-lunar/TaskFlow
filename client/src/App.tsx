@@ -7,6 +7,7 @@ import DashboardLayout from "./layouts/DashboardLayout";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import WorkspaceDetails from "./pages/WorkspaceDetails";
+import Invitations from "./pages/Invitations";
 
 function App() {
   return (
@@ -43,6 +44,11 @@ function App() {
                 <Route
                     path="/workspaces/:workspaceId"
                     element={<WorkspaceDetails />}
+                />
+
+                <Route
+                    path="/invitations"
+                    element={<Invitations />}
                 />
             </Route>
 

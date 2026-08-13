@@ -9,6 +9,7 @@ import type { Task } from "../types/task";
 import { getTasks } from "../services/task.services";
 import TaskDetailsModal from "../components/task/TaskDetailsModal";
 import EditTaskModal from "../components/task/EditTaskModal";
+import InviteMemberModal from "../components/invite/InviteMemberModal";
 
 function WorkspaceDetails() {
     const { workspaceId } = useParams<{ workspaceId: string }>();
@@ -24,6 +25,8 @@ function WorkspaceDetails() {
     const [taskError, setTaskError] = useState("");
 
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+
+    const [isInviteOpen, setIsInviteOpen] = useState(false);
 
     type TaskModal = "details" | "edit" | null;
     const [taskModal, setTaskModal] = useState<TaskModal>(null);
@@ -88,7 +91,11 @@ function WorkspaceDetails() {
         <div className="p-8">
             {workspace && (
                 <>
-                    <WorkspaceHeader workspace={workspace} onCreateTask={() => setIsCreateTaskOpen(true)} />
+                    <WorkspaceHeader 
+                        workspace={workspace} 
+                        onCreateTask={() => setIsCreateTaskOpen(true)}
+                        onInviteMember={() => setIsInviteOpen(true)}
+                    />
                     <CreateTaskModal 
                         isOpen={isCreateTaskOpen}
                         onClose={() => setIsCreateTaskOpen(false)}
@@ -115,6 +122,11 @@ function WorkspaceDetails() {
                         isOpen={taskModal === "edit"}
                         onClose={() => setTaskModal(null)}
                         onTaskUpdated={fetchTasks}
+                    />
+                    <InviteMemberModal
+                        isOpen={isInviteOpen}
+                        onClose={() => setIsInviteOpen(false)}
+                        workspaceId={workspace.id}
                     />
                 </>
             )}

@@ -1,4 +1,4 @@
-import { LayoutDashboard, FolderKanban, LogOut } from "lucide-react";
+import { LayoutDashboard, FolderKanban, LogOut, Mail } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 
@@ -22,6 +22,11 @@ function Sidebar() {
             label: "Workspaces",
             path: "/workspaces", 
             icon: FolderKanban
+        },
+        {
+            label: "Invitations",
+            path: "/invitations",
+            icon: Mail
         }
     ]
 
