@@ -4,6 +4,7 @@ import { errorHandler } from "./middlewares/error.middleware.js";
 import workspaceRoutes from "./modules/workspace/workspace.routes.js"
 import taskCollectionRoutes from "./modules/task/task.collection.routes.js"
 import taskRoutes from "./modules/task/task.routes.js"
+import invitationRouter from "./routes/invitation.routes.js"
 import cors from "cors"
 
 const app = express();
@@ -14,6 +15,7 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/workspaces", workspaceRoutes);
 app.use("/api/v1/workspaces", taskCollectionRoutes);
 app.use("/api/v1", taskRoutes);
+app.use("api/v1/invitations", invitationRouter);
 app.use(errorHandler);
 
 export default app;
