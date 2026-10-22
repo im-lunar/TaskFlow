@@ -7,7 +7,7 @@ function TopNavbar() {
 
     if (loading) {
         return (
-            <header className="flex items-center justify-between py-4 px-6 border-b bg-white">
+            <header className="flex items-center justify-between py-4 border border-slate-300 bg-white">
                 <div className="h-6 w-32 bg-gray-200 rounded animate-pulse"></div>
 
                 <div className="flex items-center gap-3">
@@ -19,7 +19,7 @@ function TopNavbar() {
     }
 
     return (
-        <header className="flex items-center justify-end py-4 px-6 border-b bg-white">
+        <header className="flex items-center justify-end py-4 px-6 border-b border-slate-300 bg-white">
             
             <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-600 text-lg font-semibold text-white">

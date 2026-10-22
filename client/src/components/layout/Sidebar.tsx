@@ -34,14 +34,14 @@ function Sidebar() {
 
     if (loading) {
     return (
-        <aside className="w-64 border-r p-6">
+        <aside className="w-64 border-r border-slate-300 p-6">
             Loading...
         </aside>
     );
 }
 
     return (
-    <aside className="w-64 border-r flex flex-col justify-between px-4 py-6">
+    <aside className="w-64 flex flex-col justify-between border-r border-slate-300 px-4 py-6">
         <div className="flex flex-col gap-8">
             <div className="text-2xl font-bold tracking-tight text-indigo-800 pt-2">
                 TaskFlow
