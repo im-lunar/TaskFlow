@@ -1,11 +1,8 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "../components/layout/Sidebar";
 import TopNavbar from "../components/layout/TopNavbar";
-import { useState } from "react";
 
 function DashboardLayout() {
-    const [user, setUser] = useState();
-
     return (
     <div className="flex h-screen overflow-hidden">
         <Sidebar />
