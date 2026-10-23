@@ -102,11 +102,12 @@ function WorkspaceDetails() {
                         workspaceId={workspace.id}
                         onTaskCreated={fetchTasks}
                     />
-                    <TaskBoard 
+                    <TaskBoard
                         tasks={tasks}
                         loading={loadingTasks}
                         error={taskError}
                         onTaskClick={handleTaskClick}
+                        onTaskStatusUpdated={fetchTasks}
                     />
                     <TaskDetailsModal 
                         task={selectedTask}

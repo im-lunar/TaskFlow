@@ -1,17 +1,28 @@
+
 import {
     Calendar,
     User,
     Flag,
+    GripVertical,
 } from "lucide-react";
-
-import type { Task } from "../../types/task";
+import { useSortable } from "@dnd-kit/react/sortable";
+import type { Task, TaskStatus } from "../../types/task";
 
 type TaskCardProps = {
     task: Task;
     onClick: () => void;
+    status: TaskStatus;
+    index: number;
 };
 
-function TaskCard({ task, onClick }: TaskCardProps) {
+function TaskCard({ task, onClick, status, index }: TaskCardProps) {
+    const { ref, isDragging } = useSortable({
+        id: task.id,
+        index,
+        type: "task",
+        accept: "task",
+        group: status,
+    });
 
     const priorityStyles = {
         LOW: "bg-green-100 text-green-700",
@@ -19,7 +30,7 @@ function TaskCard({ task, onClick }: TaskCardProps) {
         HIGH: "bg-red-100 text-red-700",
     };
 
-    const formatDate = (date?: string) => {
+    const formatDate = (date?: string | null) => {
         if (!date) return null;
 
         return new Date(date).toLocaleDateString("en-US", {
@@ -30,37 +41,21 @@ function TaskCard({ task, onClick }: TaskCardProps) {
 
     return (
         <div
+            ref={ref}
             onClick={onClick}
-            className="
-                rounded-xl
-                border
-                border-gray-200
-                bg-white
-                p-4
-                shadow-sm
-                transition
-                hover:-translate-y-1
-                hover:shadow-md
-            "
+            className={`cursor-grab rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition hover:shadow-md active:cursor-grabbing ${
+                isDragging ? "opacity-40" : ""
+            }`}
         >
-
             <div className="flex items-center justify-between">
-
                 <span
-                    className={`
-                        flex items-center gap-1
-                        rounded-full
-                        px-2.5
-                        py-1
-                        text-xs
-                        font-semibold
-                        ${priorityStyles[task.priority]}
-                    `}
+                    className={`flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold ${priorityStyles[task.priority]}`}
                 >
                     <Flag size={12} />
                     {task.priority}
                 </span>
 
+                <GripVertical size={18} className="text-gray-400" />
             </div>
 
             <h3 className="mt-4 text-lg font-semibold text-gray-900">
@@ -72,31 +67,18 @@ function TaskCard({ task, onClick }: TaskCardProps) {
             </p>
 
             <div className="mt-5 flex items-center justify-between">
-
                 <div className="flex items-center gap-2 text-sm text-gray-500">
-
                     <User size={16} />
-
-                    <span>
-                        {task.assignee?.name || "Unassigned"}
-                    </span>
-
+                    <span>{task.assignee?.name || "Unassigned"}</span>
                 </div>
 
                 {task.dueDate && (
                     <div className="flex items-center gap-1 text-sm text-gray-500">
-
                         <Calendar size={16} />
-
-                        <span>
-                            {formatDate(task.dueDate)}
-                        </span>
-
+                        <span>{formatDate(task.dueDate)}</span>
                     </div>
                 )}
-
             </div>
-
         </div>
     );
 }
