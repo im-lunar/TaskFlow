@@ -7,7 +7,7 @@ import Input from "../components/common/Input";
 import { signin } from "../services/auth.services";
 import axios from "axios";
 
-import authBackground from "../assets/ChatGPT Image Jul 17, 2026, 10_15_46 PM.png"
+import authBackground from "../assets/ChatGPT Image Jul 17, 2026, 10_15_46 PM.png";
 
 import { useAuth } from "../hooks/useAuth";
 
@@ -22,9 +22,7 @@ function Login() {
 
     const { login } = useAuth();
 
-    const handleSubmit = async (
-        e: React.SubmitEvent<HTMLFormElement>
-    ) => {
+    const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         setLoading(true);
@@ -54,96 +52,32 @@ function Login() {
         <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
 
             {/* LEFT SECTION */}
-
-            <div className="hidden lg:flex flex-col justify-center text-white px-20 bg-cover bg-center relative"
+            <div 
+                className="hidden lg:block bg-cover bg-center"
                 style={{
                     backgroundImage: `url(${authBackground})`
                 }}
-            >
-                <div className="absolute inset-0 bg-indigo/35">
-                </div>
-
-                <div className="relative z-10">
-
-                <div className="relative z-10 max-w-xl rounded-3xl bg-white/10 backdrop-blur-md p-10 border border-white/20">
-                    <h1 className="text-4xl font-bold text-indigo-500">
-                    TaskFlow
-                    </h1>
-
-                <p className="mt-8 text-xl leading-relaxed text-black max-w-md">
-                    Organize projects, manage tasks, and collaborate
-                    effortlessly with your team—all in one place.
-                </p>
-
-                <div className="mt-16 space-y-6">
-
-                    <div className="flex items-center gap-4">
-                        <div className="h-10 w-10 rounded-full bg-black/20 flex items-center justify-center">
-                            ✓
-                        </div>
-
-                        <span className="text-lg text-black">
-                            Create unlimited workspaces
-                        </span>
-                    </div>
-
-                    <div className="flex items-center gap-4">
-                        <div className="h-10 w-10 rounded-full bg-black/20 flex items-center justify-center">
-                            ✓
-                        </div>
-
-                        <span className="text-lg text-black">
-                            Organize tasks with Kanban boards
-                        </span>
-                    </div>
-
-                    <div className="flex items-center gap-4">
-                        <div className="h-10 w-10 rounded-full bg-black/20 flex items-center justify-center">
-                            ✓
-                        </div>
-
-                        <span className="text-lg text-black">
-                            Collaborate with your team
-                        </span>
-                    </div>
-                
-
-                </div>
-
-                
-
-                </div>
-
-            </div>
-        </div>
+            />
 
             {/* RIGHT SECTION */}
-
             <div className="flex items-center justify-center bg-gray-50 px-6">
-
                 <div className="w-full max-w-md rounded-2xl bg-white p-10 shadow-xl">
-
-                    <h2 className="text-3xl font-bold text-gray-900">
+                    <h2 className="text-3xl text-indigo-800 font-bold ml-28 mb-4">TaskFlow</h2>
+                    <h3 className="text-2xl font-bold text-gray-900">
                         Welcome back
-                    </h2>
+                    </h3>
 
-                    <p className="mt-2 mb-8 text-gray-500">
+                    <p className=" mb-6 text-gray-500">
                         Signin to your Account
                     </p>
 
-                    <form
-                        onSubmit={handleSubmit}
-                        className="space-y-5"
-                    >
-
+                    <form onSubmit={handleSubmit} className="space-y-5">
                         <Input
                             label="Email"
                             type="email"
                             placeholder="xyz@gmail.com"
                             value={email}
-                            onChange={(e) =>
-                                setEmail(e.target.value)
-                            }
+                            onChange={(e) => setEmail(e.target.value)}
                         />
 
                         <Input
@@ -151,9 +85,7 @@ function Login() {
                             type="password"
                             placeholder="********"
                             value={password}
-                            onChange={(e) =>
-                                setPassword(e.target.value)
-                            }
+                            onChange={(e) => setPassword(e.target.value)}
                         />
 
                         {error && (
@@ -162,13 +94,9 @@ function Login() {
                             </p>
                         )}
 
-                        <Button 
-                            type="submit"
-                            disabled={loading}
-                        >
-                            {loading? "Signin in...":"Log In"}
+                        <Button type="submit" disabled={loading}>
+                            {loading ? "Signing in..." : "Log In"}
                         </Button>
-
                     </form>
 
                     <p className="mt-8 text-center text-sm text-gray-500">
@@ -180,9 +108,7 @@ function Login() {
                             Sign Up
                         </Link>
                     </p>
-
                 </div>
-
             </div>
 
         </div>
